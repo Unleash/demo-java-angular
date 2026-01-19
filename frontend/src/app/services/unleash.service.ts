@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UnleashClient, IContext, IVariant } from 'unleash-proxy-client';
+import { initUnleashToolbar } from '@unleash/toolbar';
+import '@unleash/toolbar/toolbar.css';
 import { unleashConfig } from '../config/unleash.config';
 
 @Injectable({
@@ -22,16 +24,21 @@ export class UnleashService {
     
     // Create the Unleash client with the userId already in context
     // This ensures the FIRST fetch to the proxy includes the userId
-    this.unleash = new UnleashClient({
+
+    this.unleash = initUnleashToolbar(new UnleashClient({
       url: unleashConfig.url,
       clientKey: unleashConfig.clientKey,
       appName: unleashConfig.appName,
       refreshInterval: unleashConfig.refreshInterval,
-      // CRITICAL: Set initial context with userId BEFORE start() is called
       context: {
-        userId: this.currentUserId
+        userId: this.currentUserId,
+        properties: {
+          country: "IT",
+          beta: "false",
+        }
       }
-    });
+    }));
+    
   }
 
   async initialize(): Promise<void> {
