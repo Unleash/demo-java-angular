@@ -19,7 +19,11 @@ export class UnleashService {
     
     // Initialize context with userId BEFORE creating the client
     this.currentContext = {
-      userId: this.currentUserId
+      userId: this.currentUserId,
+      properties: {
+        country: "IT",
+        beta: "false",
+      },
     };
     
     // Create the Unleash client with the userId already in context
@@ -35,8 +39,8 @@ export class UnleashService {
         properties: {
           country: "IT",
           beta: "false",
-        }
-      }
+        },
+      },
     }));
     
   }
